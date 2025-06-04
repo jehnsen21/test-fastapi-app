@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from models import User, UserCreate, UserRole
 from database import get_db
-from auth import get_current_user
+from routers.auth import get_current_user
 
 router = APIRouter(prefix="/users", tags=["users"])
 

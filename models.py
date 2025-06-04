@@ -3,11 +3,7 @@ from enum import Enum
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
-from sqlalchemy import Column, Integer, String, Enum as SQLEnum, DateTime, ForeignKey
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
-
-Base = declarative_base()
+from uuid import uuid4
 
 class ProjectStatus(str, Enum):
     PENDING = "pending"
@@ -21,45 +17,43 @@ class UserRole(str, Enum):
     MANAGER = "manager"
     MEMBER = "member"
 
-class User(Base):
-    __tablename__ = "users"
-    id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, unique=True, index=True)
-    email = Column(String, unique=True, index=True)
-    hashed_password = Column(String)
-    role = Column(SQLEnum(UserRole), default=UserRole.MEMBER)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    projects = relationship("Project", back_populates="owner")
+class User(BaseModel):
+    id: str = str(uuid4())
+    username: str
+    email: str
+    password: str
+    role: UserRole = UserRole.MEMBER
+    created_at: datetime = datetime.utcnow()
 
-class Project(Base):
-    __tablename__ = "projects"
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True)
-    description = Column(String, nullable=True)
-    status = Column(SQLEnum(ProjectStatus), default=ProjectStatus.PENDING)
-    start_date = Column(DateTime, default=datetime.utcnow)
-    end_date = Column(DateTime, nullable=True)
-    owner_id = Column(Integer, ForeignKey("users.id"))
-    owner = relationship("User", back_populates="projects")
+class Project(BaseModel):
+    id: str = str(uuid4())
+    title: str
+    description: Optional[str] = None
+    status: ProjectStatus = ProjectStatus.PENDING
+    start_date: datetime = datetime.utcnow()
+    end_date: datetime = datetime.utcnow()
+    updated_at: datetime = datetime.utcnow()
+    owner_id: str
 
 class UserCreate(BaseModel):
     username: str
     email: str
     password: str
-    role: Optional[UserRole] = UserRole.MEMBER
+    role: UserRole = UserRole.MEMBER
 
 class ProjectCreate(BaseModel):
-    name: str
+    title: str
     description: Optional[str] = None
     status: Optional[ProjectStatus] = ProjectStatus.PENDING
     start_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
-    owner_id: int
+
 
 class ProjectUpdate(BaseModel):
     title: Optional[str] = None
     description: Optional[str] = None
     status: Optional[ProjectStatus] = None
+    updated_at: datetime = datetime.utcnow()
 
 class Token(BaseModel):
     access_token: str
