@@ -23,7 +23,7 @@ class CosmosClientSingleton:
 
     async def get_database(self):
         client = CosmosClientSingleton()
-        database = await client.get_database_client('SampleDB')
+        database = await client.get_database_client(settings.DATABASE_NAME)
         return database
 
     async def close(self):
@@ -33,7 +33,7 @@ class CosmosClientSingleton:
 async def init_db():
     try:
         client = CosmosClientSingleton()
-        database = await client.get_database_client('SampleDB')
+        database = await client.get_database_client(settings.DATABASE_NAME)
         
         # Create users container
         await database.create_container_if_not_exists(

@@ -3,7 +3,7 @@ from fastapi.security import OAuth2PasswordBearer
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from database import init_db
-from routers import projects, users, auth
+from routes import projects, users, auth
 import logging
 
 # Import or define CosmosClientSingleton

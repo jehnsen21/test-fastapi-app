@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-# from sqlalchemy.ext.asyncio import AsyncSession
-# from sqlalchemy.future import select 
 from azure.cosmos.aio import CosmosClient
 from azure.cosmos.exceptions import CosmosResourceNotFoundError, CosmosHttpResponseError
-from models import Project, ProjectCreate, ProjectUpdate, User, UserRole
+from models.project_model import Project, ProjectCreate, ProjectUpdate
+from models.user_model import User
+from models.enums import UserRole
 from database import get_db
-from routers.auth import get_current_user
+from routes.auth import get_current_user
 from datetime import datetime
 from uuid import uuid4
 import json

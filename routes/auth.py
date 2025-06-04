@@ -3,7 +3,8 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
-from models import User, UserCreate, Token
+from models.user_model import User, UserCreate
+from models.auth_model import Token
 from database import get_db
 from typing import Optional
 from azure.cosmos.aio import CosmosClient

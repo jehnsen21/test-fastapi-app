@@ -1,11 +1,11 @@
-import os
+from decouple import config
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
-    COSMOS_ENDPOINT: str = os.getenv("COSMOS_ENDPOINT", "https://localhost:8081")
-    COSMOS_KEY: str = os.getenv("COSMOS_KEY", "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==")
-    DATABASE_NAME: str = os.getenv("DATABASE_NAME", "SampleDB")
-    SECRET_kEY: str = os.getenv("SECRET_KEY", "cosmos_secret_key")
+    COSMOS_ENDPOINT: str = config("COSMOS_ENDPOINT")
+    COSMOS_KEY: str = config("COSMOS_KEY")
+    DATABASE_NAME: str = config("DATABASE_NAME")
+    SECRET_kEY: str = config("SECRET_KEY", "cosmos_secret_key")
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
 
     class Config:
