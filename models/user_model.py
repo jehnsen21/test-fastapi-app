@@ -1,5 +1,4 @@
 from pydantic import BaseModel
-from enum import Enum
 from datetime import datetime
 from uuid import uuid4
 from models.enums import UserRole
@@ -18,3 +17,9 @@ class UserCreate(BaseModel):
     password: str
     role: UserRole = UserRole.MEMBER
 
+class UserResponse(BaseModel):
+    id: str
+    username: str
+    email: str
+    role: UserRole
+    created_at: datetime

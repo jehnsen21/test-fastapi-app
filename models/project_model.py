@@ -34,3 +34,13 @@ class ProjectUpdate(BaseModel):
     description: Optional[str] = None
     status: Optional[ProjectStatus] = None
     updated_at: datetime = datetime.utcnow()
+
+class ProjectResponse(BaseModel):
+    id: str
+    title: str
+    description: Optional[str] = None
+    status: ProjectStatus
+    start_date: Optional[datetime] = None
+    end_date: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
+    owner_id: str
